@@ -9,6 +9,17 @@ window.comparator = (fn) => function compare(a, b) {
   return 1;
 };
 
+window.reverseComparator = (fn) => function compare(a, b) {
+  const a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
+  const b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
+  if (a1 === b1) {
+    return 0;
+  } if (a1 < b1) {
+    return 1;
+  }
+  return -1;
+};
+
 // date functions //
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
 const WEEK_IN_MS = DAY_IN_MS * 7;
@@ -476,41 +487,36 @@ window.vSummary = {
 
     groupByRepos(repos) {
       const sortedRepos = [];
+      const comparator = this.isSortingDsc ? window.reverseComparator : window.comparator;
       repos.forEach((users) => {
-        users.sort(window.comparator((ele) => ele[this.sortingWithinOption]));
-        if (this.isSortingWithinDsc) {
-          users.reverse();
-        }
+        users.sort(comparator((ele) => ele[this.sortingWithinOption]));
         sortedRepos.push(users);
       });
-      sortedRepos.sort(window.comparator((repo) => {
+      sortedRepos.sort(comparator((repo) => {
         if (this.sortingOption === 'totalCommits' || this.sortingOption === 'variance') {
           return repo.reduce(this.getGroupCommitsVariance, 0);
         }
         return repo[0][this.sortingOption];
       }));
-      if (this.isSortingDsc) {
-        sortedRepos.reverse();
-      }
+
       return sortedRepos;
     },
     groupByNone(repos) {
       const sortedRepos = [];
+      const comparator = this.isSortingDsc ? window.reverseComparator : window.comparator;
       repos.forEach((users) => {
         users.forEach((user) => {
           sortedRepos.push(user);
         });
       });
-      sortedRepos.sort(window.comparator((ele) => ele[this.sortingOption]));
-      if (this.isSortingDsc) {
-        sortedRepos.reverse();
-      }
+      sortedRepos.sort(comparator((ele) => ele[this.sortingOption]));
 
       return sortedRepos;
     },
     groupByAuthors(repos) {
       const authorMap = {};
       const filtered = [];
+      const comparator = this.isSortingDsc ? window.reverseComparator : window.comparator;
       repos.forEach((users) => {
         users.forEach((user) => {
           if (Object.keys(authorMap).includes(user.name)) {
@@ -521,22 +527,20 @@ window.vSummary = {
         });
       });
       Object.keys(authorMap).forEach((author) => {
-        authorMap[author].sort(window.comparator((repo) => repo[this.sortingWithinOption]));
+        authorMap[author].sort(comparator((repo) => repo[this.sortingWithinOption]));
         if (this.isSortingWithinDsc) {
           authorMap[author].reverse();
         }
         filtered.push(authorMap[author]);
       });
 
-      filtered.sort(window.comparator((author) => {
+      filtered.sort(comparator((author) => {
         if (this.sortingOption === 'totalCommits' || this.sortingOption === 'variance') {
           return author.reduce(this.getGroupCommitsVariance, 0);
         }
         return author[0][this.sortingOption];
       }));
-      if (this.isSortingDsc) {
-        filtered.reverse();
-      }
+
       return filtered;
     },
 
