@@ -488,7 +488,9 @@ window.vSummary = {
     groupByRepos(repos) {
       const sortedRepos = [];
       const comparator = this.isSortingDsc ? window.reverseComparator : window.comparator;
-      const withinComparator = this.isSortingWithinDsc ? window.reverseComparator : window.comparator;
+      const withinComparator = this.isSortingWithinDsc
+        ? window.reverseComparator
+        : window.comparator;
       repos.forEach((users) => {
         users.sort(withinComparator((ele) => ele[this.sortingWithinOption]));
         sortedRepos.push(users);
@@ -518,9 +520,11 @@ window.vSummary = {
       const authorMap = {};
       const filtered = [];
       const comparator = this.isSortingDsc ? window.reverseComparator : window.comparator;
-      const withinComparator = this.isSortingWithinDsc ? window.reverseComparator : window.comparator;
+      const withinComparator = this.isSortingWithinDsc
+        ? window.reverseComparator
+        : window.comparator;
 
-        repos.forEach((users) => {
+      repos.forEach((users) => {
         users.forEach((user) => {
           if (Object.keys(authorMap).includes(user.name)) {
             authorMap[user.name].push(user);
