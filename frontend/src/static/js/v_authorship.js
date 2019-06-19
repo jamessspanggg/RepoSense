@@ -7,16 +7,17 @@ const filesSortDict = {
 
 window.toggleNext = function toggleNext(ele) {
   // function for toggling unopened code
-  const targetClass = 'active';
+  const targetClass = 'active toggled';
 
   const parent = ele.parentNode;
   const classes = parent.className.split(' ');
-  const idx = classes.indexOf(targetClass);
+  const idxActive = classes.indexOf('active');
+  const idxToggled = classes.indexOf('toggled');
 
-  if (idx === -1) {
+  if (idxActive === -1 && idxToggled === -1) {
     classes.push(targetClass);
   } else {
-    classes.splice(idx, 1);
+    classes.splice(idxActive < idxToggled ? idxActive : idxToggled, 2);
   }
 
   parent.className = classes.join(' ');
@@ -107,6 +108,12 @@ window.vAuthorship = {
       });
 
       this.activeFilesCount = isActive ? this.selectedFiles.length : 0;
+    },
+
+    isToggled(ele) {
+      // function for checking if unopened code is toggled
+      const parent = ele.parentNode;
+      return parent.className.includes('untouched active opened');
     },
 
     updateCount() {

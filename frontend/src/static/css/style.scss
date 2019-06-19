@@ -487,21 +487,19 @@ header{
         .untouched{
             $grey:mui-color('grey', '400');
 
-            &.active{
+            &.toggled{
+                .closer{
+                    .before-toggle{
+                        display:none;
+                    }
+
+                    .after-toggle{
+                        display: inherit;
+                    }
+                }
                 .code{
                     display:inherit;
-                    background-color:mui-color('white');
-                }
-
-                .closer{
-                    .icon{
-                        background-color:mui-color('black');
-                    }
-
-                    .tooltiptext{
-                        &--open{ display:inline-block; }
-                        &--close{ display:none; }
-                    }
+                    background-color: mui-color('white');
                 }
             }
 
@@ -513,37 +511,30 @@ header{
 
             .closer{
                 cursor:pointer;
-                padding:0.5rem 1rem;
+                position:absolute;
+                border-bottom:mui-color('white');
 
-                .icon{
-                    background-color:$grey;
-                    color:mui-color('white');
+                // custom margin setting that places toggle icon in between segments and in the middle of the border
+                margin:-0.4rem 0 0 -0.22rem;
+                width:0.75em;
 
-                    width:2.2rem;
-                    border-radius:0.25rem;
-
-                    &:hover{
-                        background:black;
-                    }
-
-                    &:hover ~ .tooltiptext{
-                        visibility:visible;
+                .before-toggle{
+                    display:inherit;
+                    .icon{
+                        &.more{
+                            margin:-0.8rem 0 0 1.65rem;
+                            width:0.15rem;
+                            color:mui-color('grey');
+                        }
                     }
                 }
 
-                .tooltiptext{
-                    padding:0.5rem;
-                    margin-left:0.5rem;
-                    border-radius:0.25rem;
+                .after-toggle{
+                    display:none;
+                }
 
-                    color:mui-color('white');
-                    background-color:mui-color('black');
-
-                    text-align:center;
-                    visibility:hidden;
-
-                    &--open{ display:none; }
-                    &--close{ display:inline-block; }
+                .icon{
+                    width:0.75em;
                 }
             }
         }
