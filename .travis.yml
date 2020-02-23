@@ -61,5 +61,5 @@ cache:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - chmod ugo+x ./config/travis/deploy.sh
-  - npm install surge
+  - npm install -g surge
   - ./config/travis/deploy.sh
