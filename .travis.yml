@@ -49,8 +49,6 @@ before_cache:
 
 after_success:
   - git fetch --unshallow && ./gradlew run -Dargs="-V"
-  - chmod ugo+x ./config/travis/deploy.sh
-  - ./config/travis/deploy.sh
 
 cache:
   npm: true,
@@ -62,3 +60,5 @@ cache:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - chmod ugo+x ./config/travis/deploy.sh
+  - ./config/travis/deploy.sh
