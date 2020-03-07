@@ -1,0 +1,25 @@
+name: Deploy On Surge
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Deploying to surge
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install surge and fire deployment
+        uses: actions/setup-node@v1
+        with:
+          node-version: 8
+        env:
+          GITHUB_API_TOKEN=${{ secrets.GITHUB_API_TOKEN }}
+          SURGE_LOGIN=${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN=${{ secrets.SURGE_TOKEN }}
+          GITHUB_EVENT_NAME=${{ github.event_name }}
+          GITHUB_SHA=${{ github.sha }}
+          GITHUB_REPOSITORY=${{ github.repository }}
+      - run: git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
+      - run: npm install -g surge
+      - run: chmod ugo+x ./config/actions/deploy-surge.sh
+      - run: ./config/actions/deploy-surge.sh
