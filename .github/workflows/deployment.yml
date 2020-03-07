@@ -27,5 +27,5 @@ jobs:
           export GITHUB_SHA=${{ github.sha }}
           export GITHUB_HEAD_REF=${{ github.head_ref }}
           export GITHUB_REPOSITORY=${{ github.repository }}
-          export GITHUB_EVENT=${{ toJson(github.event) }}
+          export GITHUB_PR_SHA=${{ github.event.after }}
           ./config/actions/deploy-surge.sh

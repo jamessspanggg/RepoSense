@@ -11,7 +11,6 @@ echo "Owner: ${REPO_OWNER}"
 echo "Repo: ${REPO_NAME}"
 echo "Event type: ${GITHUB_EVENT_NAME}"
 echo "Head ref: ${GITHUB_HEAD_REF}"
-echo ${GITHUB_EVENT}
 
 # replaces "/" or "." with "-"
 # sed -r is only supported in linux, ref http://stackoverflow.com/a/2871217/689223
@@ -23,7 +22,7 @@ echo "Deploy domain: ${DEPLOY_DOMAIN}"
 surge --project ${DEPLOY_PATH} --domain $DEPLOY_DOMAIN;
 if [ "$GITHUB_EVENT_NAME" == "pull_request" ]
 then
-  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${GITHUB_SHA}?access_token=${GITHUB_API_TOKEN}" \
+  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${GITHUB_PR_SHA}?access_token=${GITHUB_API_TOKEN}" \
   -H "Content-Type: application/json" \
   -X POST \
   -d "{\"state\": \"success\",\"context\": \"continuous-integration/travis\", \"description\": \"Deploy domain: ${DEPLOY_DOMAIN}\", \"target_url\": \"${DEPLOY_DOMAIN}\"}"
