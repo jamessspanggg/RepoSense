@@ -24,5 +24,5 @@ then
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${GITHUB_PR_SHA}?access_token=${GITHUB_API_TOKEN}" \
   -H "Content-Type: application/json" \
   -X POST \
-  -d "{\"state\": \"success\",\"context\": \"continuous-integration/travis\", \"description\": \"Deploy domain: ${DEPLOY_DOMAIN}\", \"target_url\": \"${DEPLOY_DOMAIN}\"}"
+  -d "{\"state\": \"success\",\"context\": \"deployment/surge\", \"description\": \"Deploy domain: ${DEPLOY_DOMAIN}\", \"target_url\": \"${DEPLOY_DOMAIN}\"}"
 fi
