@@ -12,14 +12,15 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 8
+      - run: git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
+      - run: npm install -g surge
+      - run: chmod ugo+x ./config/actions/deploy-surge.sh
+      - name: deploy surge and show link at github status
         env:
-          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          GITHUB_API_TOKEN=${{ secrets.GITHUB_API_TOKEN }}
           SURGE_LOGIN=${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN=${{ secrets.SURGE_TOKEN }}
           GITHUB_EVENT_NAME=${{ github.event_name }}
           GITHUB_SHA=${{ github.sha }}
           GITHUB_REPOSITORY=${{ github.repository }}
-      - run: git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
-      - run: npm install -g surge
-      - run: chmod ugo+x ./config/actions/deploy-surge.sh
-      - run: ./config/actions/deploy-surge.sh
+        run: ./config/actions/deploy-surge.sh
