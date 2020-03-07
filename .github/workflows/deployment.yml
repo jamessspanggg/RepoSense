@@ -1,6 +1,6 @@
 name: Deploy On Surge
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -25,5 +25,6 @@ jobs:
           export SURGE_TOKEN=${{ secrets.SURGE_TOKEN }}
           export GITHUB_EVENT_NAME=${{ github.event_name }}
           export GITHUB_SHA=${{ github.sha }}
+          export GITHUB_HEAD_REF=${{ github.head_ref }}
           export GITHUB_REPOSITORY=${{ github.repository }}
           ./config/actions/deploy-surge.sh

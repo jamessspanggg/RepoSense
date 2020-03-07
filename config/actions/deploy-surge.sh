@@ -10,6 +10,7 @@ DEPLOY_SUBDOMAIN="${GITHUB_SHA}-sha"
 echo "Owner: ${REPO_OWNER}"
 echo "Repo: ${REPO_NAME}"
 echo "Event type: ${GITHUB_EVENT_NAME}"
+echo "Head ref: ${GITHUB_HEAD_REF}"
 
 # replaces "/" or "." with "-"
 # sed -r is only supported in linux, ref http://stackoverflow.com/a/2871217/689223
