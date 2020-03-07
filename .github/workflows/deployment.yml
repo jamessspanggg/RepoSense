@@ -8,14 +8,16 @@ jobs:
     name: Deploying to surge
     steps:
       - uses: actions/checkout@v1
-      - name: Install surge and fire deployment
+      - name: Install surge
         uses: actions/setup-node@v1
         with:
           node-version: 8
-      - run: git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
-      - run: npm install -g surge
-      - run: chmod ugo+x ./config/actions/deploy-surge.sh
-      - name: deploy surge and show link at github status
+        run: npm install -g surge
+      - name: Run RepoSense analysis
+        run: git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
+      - name: Enable permissions to execute deployment script
+        run: chmod ugo+x ./config/actions/deploy-surge.sh
+      - name: Fire deployment and show github status on PR
         env:
           GITHUB_API_TOKEN=${{ secrets.GITHUB_API_TOKEN }}
           SURGE_LOGIN=${{ secrets.SURGE_LOGIN }}
@@ -23,4 +25,11 @@ jobs:
           GITHUB_EVENT_NAME=${{ github.event_name }}
           GITHUB_SHA=${{ github.sha }}
           GITHUB_REPOSITORY=${{ github.repository }}
-        run: ./config/actions/deploy-surge.sh
+        run: |
+          export GITHUB_API_TOKEN=${{ secrets.GITHUB_API_TOKEN }}
+          export SURGE_LOGIN=${{ secrets.SURGE_LOGIN }}
+          export SURGE_TOKEN=${{ secrets.SURGE_TOKEN }}
+          export GITHUB_EVENT_NAME=${{ github.event_name }}
+          export GITHUB_SHA=${{ github.sha }}
+          export GITHUB_REPOSITORY=${{ github.repository }}
+          ./config/actions/deploy-surge.sh
