@@ -19,13 +19,6 @@ jobs:
       - name: Enable permissions to execute deployment script
         run: chmod ugo+x ./config/actions/deploy-surge.sh
       - name: Fire deployment and show github status on PR
-        env:
-          GITHUB_API_TOKEN=${{ secrets.GITHUB_API_TOKEN }}
-          SURGE_LOGIN=${{ secrets.SURGE_LOGIN }}
-          SURGE_TOKEN=${{ secrets.SURGE_TOKEN }}
-          GITHUB_EVENT_NAME=${{ github.event_name }}
-          GITHUB_SHA=${{ github.sha }}
-          GITHUB_REPOSITORY=${{ github.repository }}
         run: |
           export GITHUB_API_TOKEN=${{ secrets.GITHUB_API_TOKEN }}
           export SURGE_LOGIN=${{ secrets.SURGE_LOGIN }}
