@@ -1,0 +1,32 @@
+name: Deploy On Surge
+
+on:
+  push:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Deploying to surge
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 8
+      - name: Install surge
+        run: npm install -g surge
+      - name: Run RepoSense analysis
+        run: git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
+      - name: Enable permissions to execute deployment script
+        run: chmod ugo+x ./config/actions/deploy-surge.sh
+      - name: Fire deployment and show github status on PR
+        run: |
+          export GITHUB_API_TOKEN=${{ secrets.GITHUB_API_TOKEN }}
+          export SURGE_LOGIN=${{ secrets.SURGE_LOGIN }}
+          export SURGE_TOKEN=${{ secrets.SURGE_TOKEN }}
+          export GITHUB_EVENT_NAME=${{ github.event_name }}
+          export GITHUB_REPOSITORY=${{ github.repository }}
+          export GITHUB_PR_SHA=${{ github.event.after }}
+          ./config/actions/deploy-surge.sh
