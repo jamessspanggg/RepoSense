@@ -9,9 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Install surge
-        uses: actions/setup-node@v1
-        with:
-          node-version: 8
         run: npm install -g surge
       - name: Run RepoSense analysis
         run: git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
