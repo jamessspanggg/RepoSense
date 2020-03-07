@@ -4,7 +4,7 @@ REPO_SLUG_ARRAY=(${GITHUB_REPOSITORY//\// })
 REPO_OWNER=${REPO_SLUG_ARRAY[0]}
 REPO_NAME=${REPO_SLUG_ARRAY[1]}
 DEPLOY_PATH=./reposense-report
-DEPLOY_SUBDOMAIN="${GITHUB_SHA}-sha"
+DEPLOY_SUBDOMAIN="${GITHUB_SHA:0:6}-sha" # get first 6 characters of commit sha
 
 # debugging purposes
 echo "Owner: ${REPO_OWNER}"
