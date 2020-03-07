@@ -22,8 +22,8 @@ echo "Deploy domain: ${DEPLOY_DOMAIN}"
 surge --project ${DEPLOY_PATH} --domain $DEPLOY_DOMAIN;
 if [ "$GITHUB_EVENT_NAME" == "pull_request" ]
 then
-  echo "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${GITHUB_SHA}?access_token=${GITHUB_API_TOKEN}"
-  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${GITHUB_SHA}?access_token=${GITHUB_API_TOKEN}" \
+#  echo "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${GITHUB_SHA}?access_token=${GITHUB_API_TOKEN}"
+  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${GITHUB_PR_SHA}?access_token=${GITHUB_API_TOKEN}" \
   -H "Content-Type: application/json" \
   -X POST \
   -d "{\"state\": \"success\",\"context\": \"continuous-integration/travis\", \"description\": \"Deploy domain: ${DEPLOY_DOMAIN}\", \"target_url\": \"${DEPLOY_DOMAIN}\"}"
