@@ -14,6 +14,8 @@ DEPLOY_DOMAIN=https://${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
 if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ -z "${TRAVIS_TAG// }" ] # if it is a branch
 then
   echo "Deploy domain: ${DEPLOY_DOMAIN}"
+  echo "Surge login: ${SURGE_LOGIN}"
+  echo "Surge token: ${SURGE_TOKEN}"
   surge --project ${DEPLOY_PATH} --domain $DEPLOY_DOMAIN;
 elif [ "$TRAVIS_PULL_REQUEST" != "false" ]  # if it is a PR, create comment with link on the PR
 then
