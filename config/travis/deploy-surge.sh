@@ -44,22 +44,10 @@ do
   echo "Deploy domain: ${DEPLOY_DOMAIN}"
   echo "Surge login: ${SURGE_LOGIN}"
   echo "Surge token: ${SURGE_TOKEN}"
+  echo "Github token: ${GITHUB_API_TOKEN}"
   surge --project ${DEPLOY_PATH} --domain $DEPLOY_DOMAIN;
   if [ "$TRAVIS_PULL_REQUEST" != "false" ]
   then
-    # Using the Issues api instead of the PR api
-    # Done so because every PR is an issue, and the issues api allows to post general comments,
-    # while the PR api requires that comments are made to specific files and specific commits
-#    GITHUB_PR_COMMENTS=https://api.github.com/repos/${TRAVIS_REPO_SLUG}/issues/${TRAVIS_PULL_REQUEST}/comments
-#
-#    # Check if there's existing comment for deployment link
-#    curl ${GITHUB_PR_COMMENTS} -v
-#
-#    # Post deployment link as comment
-#    curl -H "Authorization: token ${GITHUB_API_TOKEN}" -X POST \
-#    -d "{\"body\": \"Travis automatic deployment: ${DEPLOY_DOMAIN}\"}" \
-#    ${GITHUB_PR_COMMENTS}
-
     echo "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${TRAVIS_PULL_REQUEST_SHA}?access_token=${GITHUB_API_TOKEN}"
     curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${TRAVIS_PULL_REQUEST_SHA}?access_token=${GITHUB_API_TOKEN}" \
     -H "Content-Type: application/json" \
